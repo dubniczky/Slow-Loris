@@ -23,7 +23,7 @@ def create_socket(host, port, prevent_cache, method, url):
     send_header(s, "User-Agent", random_agent()) # Some frameworks require an immediate user-agent definition
     return s
 
-def loris(host, port, n, *, timing, prevent_cache, url):
+def loris(host, port, n, *, timing, prevent_cache, url, method):
     t0 : float
     sockets : list[socket.socket]
     try:
