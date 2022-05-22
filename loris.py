@@ -4,13 +4,6 @@ import time
 
 from agents import random_agent
 
-host : str = "10.0.1.245"
-method : str = 'GET'
-url : str = '/'
-port : int = 8080
-timing : float = 2
-prevent_cache : bool = True
-
 def send_line(s, data):
     s.send(bytes(f"{data}\n", 'utf8'))
 
@@ -82,8 +75,12 @@ def loris(host, port, n, *, timing, prevent_cache, url):
             s.shutdown(socket.SHUT_RDWR) # Discard pending incoming data
             s.close()
         print("Done")
-
-
         
 if __name__ == '__main__':
+    host : str = "10.0.1.245"
+    method : str = 'GET'
+    url : str = '/'
+    port : int = 8080
+    timing : float = 2
+    prevent_cache : bool = True
     loris(host, port, 1_000, timing=timing, prevent_cache=prevent_cache, url=url)
