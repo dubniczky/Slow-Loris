@@ -83,4 +83,4 @@ if __name__ == '__main__':
     port : int = 8080
     timing : float = 2
     prevent_cache : bool = True
-    loris(host, port, 1_000, timing=timing, prevent_cache=prevent_cache, url=url)
+    loris(host, port, 1_000, timing=timing, prevent_cache=prevent_cache, url=url, method=method)
