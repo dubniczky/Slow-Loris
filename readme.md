@@ -19,6 +19,11 @@ This attack is most effective if:
 - The host has no DoS protection
 - The attack is carried out by a distributed network of systems
 
+## Requirements
+
+- Python 3.10+
+- Optional: NodeJS 16+
+
 ## Usage
 
 ```bash
