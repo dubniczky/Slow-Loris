@@ -1,2 +1,2 @@
-from agents import user_agents
-from loris import loris
+from .agents import user_agents
+from .loris import loris
