@@ -18,3 +18,27 @@ This attack is most effective if:
 - The host has no load balacing or firewalls
 - The host has no DoS protection
 - The attack is carried out by a distributed network of systems
+
+## Usage
+
+```bash
+python main.py HOST_IP [OPTIONS]
+```
+
+Help:
+
+Use the following command to get a list of options.
+
+```bash
+python main.py -h
+```
+
+## Demo server
+
+The demo server is written in native NodeJS with zero dependencies. You can start it by using:
+
+```bash
+node testserver.node PORT
+```
+
+> Please not that on UNIX systems, root privileges are required to run this script on port lower thatn 1024
