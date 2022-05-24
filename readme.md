@@ -42,3 +42,7 @@ node testserver.node PORT
 ```
 
 > Please not that on UNIX systems, root privileges are required to run this script on port lower thatn 1024
+
+## License
+
+[MIT](./LICENSE)
