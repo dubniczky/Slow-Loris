@@ -2,6 +2,8 @@
 
 Python implementation of the Slow Loris denial of service attack
 
+[[_TOC_]]
+
 ## Introduction
 
 Slow Loris is a low-bandwidth denial of service attack, utilizing lots of connections to the same host and keeping them alive, while sending minimal data.
