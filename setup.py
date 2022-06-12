@@ -17,8 +17,8 @@ description = None
 try:
     with open('readme.md', 'r') as f:
         description = f.read()
-except:
-    pass
+except IOError:
+    print('Missing description')
 
 setup(
     name = "sloris",
