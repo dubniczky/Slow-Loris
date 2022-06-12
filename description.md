@@ -2,6 +2,8 @@
 
 Python implementation of the Slow Loris denial of service attack
 
+https://gitlab.com/richardnagy/security/sloris
+
 ## Disclaimer
 
 This tool is intended for demonstrational purposes, so only use against your systems or against ones you have authorization for. I take no responsibility for your actions.
@@ -42,3 +44,7 @@ Use the following command to get a list of options.
 ```bash
 sloris -h
 ```
+
+## Repository
+
+For more information or contribution please take a look at the [git repository](https://gitlab.com/richardnagy/security/sloris)
