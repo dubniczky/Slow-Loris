@@ -14,8 +14,11 @@ else:
             f.write(version)
 
 description = None
-with open('readme.md', 'r') as f:
-    description = f.read()
+try:
+    with open('readme.md', 'r') as f:
+        description = f.read()
+except:
+    pass
 
 setup(
     name = "sloris",
