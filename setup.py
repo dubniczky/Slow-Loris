@@ -15,7 +15,7 @@ else:
 
 description = None
 try:
-    with open('readme.md', 'r') as f:
+    with open('description.md', 'r') as f:
         description = f.read()
 except IOError:
     print('Missing description')
