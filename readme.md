@@ -30,10 +30,26 @@ This attack is most effective if:
 - Python 3.10+
 - Optional: NodeJS 16+
 
+## Installation
+
+### Using Pip package manager
+
+```bash
+pip install sloris
+```
+
+### Download repository
+
+```bash
+git clone https://gitlab.com/richardnagy/security/sloris
+cd sloris
+python setup.py install
+```
+
 ## Usage
 
 ```bash
-python main.py HOST_IP [OPTIONS]
+sloris HOST_IP [OPTIONS]
 ```
 
 Help:
@@ -41,7 +57,13 @@ Help:
 Use the following command to get a list of options.
 
 ```bash
-python main.py -h
+sloris -h
+```
+
+Example run
+
+```bash
+sloris localhost -p 8080 -c 1000 -m GET -u /page -t 5 -pc true
 ```
 
 ## Demo server

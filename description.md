@@ -45,6 +45,12 @@ Use the following command to get a list of options.
 sloris -h
 ```
 
+Example run
+
+```bash
+sloris localhost -p 8080 -c 1000 -m GET -u /page -t 5 -pc true
+```
+
 ## Repository
 
 For more information or contribution please take a look at the [git repository](https://gitlab.com/richardnagy/security/sloris)
