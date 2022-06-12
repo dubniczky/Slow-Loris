@@ -1,8 +1,10 @@
 import random
+import os
 
 # Read agents
 user_agents = None
-with open('data/user-agents.txt', 'r') as f:
+file_name = os.path.join(os.path.dirname(__file__), 'user-agents.txt')
+with open(file_name, 'r') as f:
     user_agents = f.read().splitlines()
 
 # Select random agent

@@ -2,7 +2,7 @@ import socket
 import random
 import time
 
-from agents import random_agent
+from .agents import random_agent
 
 def send_line(s, data):
     s.send(bytes(f"{data}\n", 'utf8'))

@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from loris import loris
+from .loris import loris
 
 parser = ArgumentParser(
     prog="Slow Loris DoS",
@@ -55,14 +55,18 @@ parser.add_argument(
     type=bool,
 )
 
-args = parser.parse_args()
+def main():
+    args = parser.parse_args()
 
-loris(
-    host = args.host,
-    port = args.port,
-    n = args.connections,
-    timing = args.timing,
-    prevent_cache = args.prevent_cache,
-    url = args.url,
-    method = args.method
-)
+    loris.loris(
+        host = args.host,
+        port = args.port,
+        n = args.connections,
+        timing = args.timing,
+        prevent_cache = args.prevent_cache,
+        url = args.url,
+        method = args.method
+    )
+
+if __name__ == '__main__':
+    main()
