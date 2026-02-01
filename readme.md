@@ -2,12 +2,6 @@
 
 Python implementation of the Slow Loris denial of service attack
 
-## Support ❤️
-
-If you find the project useful, please consider supporting, or contributing.
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/dubniczky)
-
 ## Disclaimer
 
 This tool is intended for demonstrational purposes, so only use against your systems or against ones you have authorization for. I take no responsibility for your actions.
